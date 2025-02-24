@@ -1,0 +1,95 @@
+[gd_scene load_steps=4 format=3 uid="uid://v2ixguaed37n"]
+
+[ext_resource type="Script" path="res://singles/singemultiplayer_main.gd" id="1_f1s4l"]
+[ext_resource type="Script" path="res://singles/Cells.gd" id="2_rfptw"]
+[ext_resource type="TileSet" uid="uid://df5oleg3xy8pp" path="res://tilesets/grass.tres" id="2_wprwp"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="MultiplayerMain" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("1_f1s4l")
+MAX_CONNECTIONS = 2
+
+[node name="JoinUI" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="JoinUI"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -256.0
+offset_right = 256.0
+offset_bottom = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+metadata/_edit_group_ = true
+
+[node name="NameBox" type="HBoxContainer" parent="JoinUI/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="name_label" type="RichTextLabel" parent="JoinUI/VBoxContainer/NameBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Name
+and
+Color"
+
+[node name="name_edit" type="TextEdit" parent="JoinUI/VBoxContainer/NameBox"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="name_color" type="ColorPicker" parent="JoinUI/VBoxContainer/NameBox"]
+layout_mode = 2
+edit_alpha = false
+color_modes_visible = false
+sliders_visible = false
+presets_visible = false
+
+[node name="Host" type="Button" parent="JoinUI/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Host Game"
+
+[node name="Join" type="Button" parent="JoinUI/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+text = "Join Code"
+
+[node name="lobby_edit" type="TextEdit" parent="JoinUI/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RichTextLabel" type="RichTextLabel" parent="JoinUI/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+bbcode_enabled = true
+text = "[center]Status[/center]"
+
+[node name="BaseMap" type="TileMapLayer" parent="."]
+unique_name_in_owner = true
+tile_set = ExtResource("2_wprwp")
+script = ExtResource("2_rfptw")
+width = 32
+height = 32
+percent_fill = 0.5
+smooths = 205
+random_seed = true
+debug = false
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+spawn_path = NodePath("..")
+
+[node name="Player2D" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="Player2D"]
+
+[connection signal="pressed" from="JoinUI/VBoxContainer/Host" to="MultiplayerMain" method="create_game"]
+[connection signal="pressed" from="JoinUI/VBoxContainer/Join" to="MultiplayerMain" method="join_game"]
