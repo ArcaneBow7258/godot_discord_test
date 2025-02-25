@@ -1,0 +1,126 @@
+[gd_scene load_steps=6 format=3 uid="uid://d1ye8g2uisu2m"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_pe8cl"]
+light_mode = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7s2dt"]
+texture_margin_left = 8.0
+texture_margin_top = 8.0
+texture_margin_right = 8.0
+texture_margin_bottom = 8.0
+axis_stretch_vertical = 2
+region_rect = Rect2(139, 12, 106, 122)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ky4or"]
+bg_color = Color(0.219608, 0.847059, 0.380392, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.8, 0.8, 0.8, 0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kvulo"]
+bg_color = Color(0.890196, 0.203922, 0.262745, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.8, 0.8, 0.8, 0)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 4
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_ectsh"]
+properties/0/path = NodePath("Health:min_value")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath("Health:max_value")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath("Health:value")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath("Resource:max_value")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+properties/4/path = NodePath("Resource:min_value")
+properties/4/spawn = true
+properties/4/replication_mode = 2
+properties/5/path = NodePath("Resource:value")
+properties/5/spawn = true
+properties/5/replication_mode = 2
+
+[node name="BarManager" type="Control"]
+light_mask = 16
+visibility_layer = 16
+material = SubResource("CanvasItemMaterial_pe8cl")
+layout_mode = 3
+anchors_preset = 0
+offset_left = -32.25
+offset_top = -32.0
+offset_right = 31.75
+offset_bottom = 32.0
+
+[node name="Resource" type="ProgressBar" parent="."]
+light_mask = 16
+visibility_layer = 16
+use_parent_material = true
+layout_mode = 0
+offset_top = 6.0
+offset_right = 64.0
+offset_bottom = 22.0
+scale = Vector2(0.25, 0.25)
+pivot_offset = Vector2(32, 16)
+tooltip_text = "Health
+"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_styles/background = SubResource("StyleBoxTexture_7s2dt")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ky4or")
+value = 32.0
+show_percentage = false
+
+[node name="Resource_Start" type="Timer" parent="."]
+one_shot = true
+
+[node name="Health" type="ProgressBar" parent="."]
+light_mask = 16
+visibility_layer = 16
+use_parent_material = true
+layout_mode = 0
+offset_top = 4.0
+offset_right = 64.0
+offset_bottom = 20.0
+scale = Vector2(0.25, 0.25)
+pivot_offset = Vector2(32, 16)
+tooltip_text = "Health
+"
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_styles/background = SubResource("StyleBoxTexture_7s2dt")
+theme_override_styles/fill = SubResource("StyleBoxFlat_kvulo")
+value = 32.0
+show_percentage = false
+
+[node name="Health_Start" type="Timer" parent="."]
+one_shot = true
+
+[node name="Gone" type="Timer" parent="."]
+one_shot = true
+
+[node name="iFrame" type="Timer" parent="."]
+one_shot = true
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_ectsh")
+
+[connection signal="timeout" from="Resource_Start" to="." method="_on_resource_start_timeout"]
+[connection signal="timeout" from="Health_Start" to="." method="_on_health_start_timeout"]
+[connection signal="timeout" from="Gone" to="." method="_on_gone_timeout"]

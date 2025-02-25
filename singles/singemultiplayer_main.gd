@@ -10,7 +10,8 @@ signal server_disconnected
 const PORT = 8181
 const DEFAULT_SERVER_IP = "127.0.0.1" # IPv4 localhost
 @export var MAX_CONNECTIONS = 4
-
+var  PLAYER_SPAWNER : MultiplayerSpawner
+@export var PLAYER_HOLDER : Node
 # This will contain player info for every player,
 # with the keys being each player's unique IDs.
 var players = {}
@@ -31,21 +32,32 @@ func _ready():
 	multiplayer.connected_to_server.connect(_on_connected_ok)
 	multiplayer.connection_failed.connect(_on_connected_fail)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
-	
+	PLAYER_SPAWNER = %PlayerSpawner
+	PLAYER_HOLDER = $"../Players"
+	PLAYER_SPAWNER.set_spawn_function(_spawn_player)
 	if OS.has_feature("dedicated_server"):
 		create_game()
-
+func _spawn_player(data: Dictionary):
+	if multiplayer.is_server():
+		print("spawning for ")
+	var character = preload("res://scenes/2_player.tscn").instantiate()
+	character.set_multiplayer_authority(data['multiplayer_id'])
+	character.name =  str(data['id'])
+	character.reparent(get_node(PLAYER_SPAWNER.spawn_path), true)
+	return character
+# Guess this is when it creates the local player
 func _process_local_player():
-	
+	print('local player')
 	var t = (get_node("%JoinUI/VBoxContainer/NameBox/name_edit") as TextEdit).text 
 	var color = (get_node("%JoinUI/VBoxContainer/NameBox/name_color") as ColorPicker).color 
-	print(color)
+	
 	if t != '':
 		player_info['name'] = t
 	else:
 		player_info['name'] = randi()
 	player_info['color'] = color
-	print(player_info)
+	#print(player_info['name'])
+
 func join_game():
 	print("Attempt Join")
 	var address = (get_node("%JoinUI/VBoxContainer/lobby_edit") as TextEdit).text 
@@ -54,9 +66,13 @@ func join_game():
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_client(address, PORT)
 	if error:
+		print("Error creating client")
 		return error
+	_process_local_player()
 	multiplayer.multiplayer_peer = peer
+	
 	%JoinUI.hide()
+	
 
 
 func create_game():
@@ -67,9 +83,13 @@ func create_game():
 	multiplayer.multiplayer_peer = peer
 	serv_info['seed'] = 818
 	%BaseMap.make_map()
+	# server has id of 1
 	if not OS.has_feature("dedicated_server"):
+		_process_local_player()
 		players[1] = player_info
 		player_connected.emit(1, player_info)
+		PLAYER_SPAWNER.spawn({'id' = player_info['name'],
+		'multiplayer_id' = 1})
 		%JoinUI.hide()
 
 
@@ -89,28 +109,47 @@ func load_game(game_scene_path):
 # Any pear will be allows anyone to call it
 @rpc("any_peer", "call_local", "reliable")
 func player_loaded():
-	if multiplayer.is_server():
-		players_loaded += 1
+	%BaseMap.make_tiles.rpc_id(multiplayer.get_remote_sender_id(), %BaseMap)
+	players_loaded += 1
+	print("Srever player count: " + str(players_loaded))
+	PLAYER_SPAWNER.spawn({"id" = player_info[multiplayer.get_remote_sender_id()],
+						  "multiplayer_id" =multiplayer.get_remote_sender_id()
+						})
 
 
 # When a peer connects, send them my player info.
 # This allows transfer of all desired data for each player, not only the unique ID.
+# Essentially, trading data.
 func _on_player_connected(id):
-	_register_player.rpc_id(id, player_info)
-	%BaseMap.make_tiles.rpc_id(id, %BaseMap.map)
 
+	# Send data to specific user
+	print(str(multiplayer.get_unique_id()) + " _on_player_connected")
+	print(player_info)
+	_register_player.rpc_id(id, player_info)
+
+	
+	
+	
 @rpc("any_peer", "reliable")
 func _register_player(new_player_info):
 	var new_player_id = multiplayer.get_remote_sender_id()
 	players[new_player_id] = new_player_info
 	player_connected.emit(new_player_id, new_player_info)
-
+	print(str(multiplayer.get_unique_id()) + " register player: " + str(new_player_id))
+	if multiplayer.is_server():
+		%BaseMap.make_tiles.rpc_id(multiplayer.get_remote_sender_id(), %BaseMap.map)
+		PLAYER_SPAWNER.spawn({"id" = new_player_info['name'],
+							  "multiplayer_id" = new_player_id
+							})
+		
+		#player_loaded.rpc_id(1)
+	
 
 func _on_player_disconnected(id):
 	players.erase(id)
 	player_disconnected.emit(id)
 	
-
+# get data form conetced peer
 func _on_connected_ok():
 	var peer_id = multiplayer.get_unique_id()
 	players[peer_id] = player_info
@@ -125,3 +164,5 @@ func _on_server_disconnected():
 	multiplayer.multiplayer_peer = null
 	players.clear()
 	server_disconnected.emit()
+func output_local(msg):
+	print(str(multiplayer.get_unique_id()) + msg)

@@ -5,6 +5,7 @@
 [ext_resource type="TileSet" uid="uid://df5oleg3xy8pp" path="res://tilesets/grass.tres" id="2_wprwp"]
 
 [node name="Node2D" type="Node2D"]
+metadata/_edit_horizontal_guides_ = [-101.0]
 
 [node name="MultiplayerMain" type="Node" parent="."]
 unique_name_in_owner = true
@@ -71,9 +72,19 @@ size_flags_vertical = 3
 bbcode_enabled = true
 text = "[center]Status[/center]"
 
+[node name="Players" type="Node" parent="."]
+
+[node name="Player2D" type="Node2D" parent="."]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player2D"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="Player2D"]
+
 [node name="BaseMap" type="TileMapLayer" parent="."]
 unique_name_in_owner = true
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 20, 0, 12, 0, 1, 0, 1, 0, 1, 0, 0, 0)
 tile_set = ExtResource("2_wprwp")
+rendering_quadrant_size = 1
 script = ExtResource("2_rfptw")
 width = 32
 height = 32
@@ -82,14 +93,11 @@ smooths = 205
 random_seed = true
 debug = false
 
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-spawn_path = NodePath("..")
-
-[node name="Player2D" type="Node2D" parent="."]
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Player2D"]
-
-[node name="CharacterBody2D" type="CharacterBody2D" parent="Player2D"]
+[node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
+unique_name_in_owner = true
+_spawnable_scenes = PackedStringArray("res://scenes/2_player.tscn")
+spawn_path = NodePath("../Players")
+spawn_limit = 4
 
 [connection signal="pressed" from="JoinUI/VBoxContainer/Host" to="MultiplayerMain" method="create_game"]
 [connection signal="pressed" from="JoinUI/VBoxContainer/Join" to="MultiplayerMain" method="join_game"]

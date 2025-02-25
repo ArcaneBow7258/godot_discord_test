@@ -1,0 +1,161 @@
+[gd_scene load_steps=7 format=3 uid="uid://cwpecqrkq2kli"]
+
+[ext_resource type="PackedScene" uid="uid://m5vv7frts42f" path="res://Scenes/Slot.tscn" id="1_hhur4"]
+[ext_resource type="Script" path="res://Scripts/Inventory.gd" id="1_megov"]
+[ext_resource type="Texture2D" uid="uid://b2mqjugadrbwx" path="res://Sprites/UI_Sprites/Setting menu.png" id="2_q57jd"]
+[ext_resource type="Texture2D" uid="uid://b7a4shox8f5af" path="res://Sprites/Sheets/char.png" id="3_yh2gt"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7nnss"]
+texture = ExtResource("2_q57jd")
+texture_margin_left = 96.0
+texture_margin_top = 16.0
+texture_margin_right = 96.0
+texture_margin_bottom = 16.0
+region_rect = Rect2(136, 8, 112, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bcn7o"]
+atlas = ExtResource("3_yh2gt")
+region = Rect2(16, 16, 16, 16)
+
+[node name="Inventory" type="Control"]
+unique_name_in_owner = true
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_megov")
+
+[node name="Hotbar" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -70.0
+offset_top = -100.0
+offset_right = 70.0
+offset_bottom = -68.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(4, 4)
+pivot_offset = Vector2(70, 16)
+
+[node name="Box1" parent="Hotbar" instance=ExtResource("1_hhur4")]
+layout_mode = 2
+
+[node name="Box Cursor" type="ReferenceRect" parent="Hotbar/Box1"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(8, 8)
+mouse_filter = 1
+editor_only = false
+
+[node name="Box2" parent="Hotbar" instance=ExtResource("1_hhur4")]
+layout_mode = 2
+
+[node name="Box3" parent="Hotbar" instance=ExtResource("1_hhur4")]
+layout_mode = 2
+
+[node name="Box4" parent="Hotbar" instance=ExtResource("1_hhur4")]
+layout_mode = 2
+
+[node name="CharacterPanel" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.0
+offset_top = -72.5
+offset_right = 90.0
+offset_bottom = 47.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(4, 4)
+pivot_offset = Vector2(90, 60)
+theme_override_styles/panel = SubResource("StyleBoxTexture_7nnss")
+
+[node name="Char View" type="Panel" parent="CharacterPanel"]
+layout_mode = 0
+offset_left = 14.25
+offset_top = 10.75
+offset_right = 39.25
+offset_bottom = 37.75
+
+[node name="Pic" type="TextureRect" parent="CharacterPanel/Char View"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_bcn7o")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CharacterPanel/Char View"]
+layout_mode = 0
+offset_left = -3.75
+offset_top = 30.5
+offset_right = 28.25
+offset_bottom = 98.5
+
+[node name="Box4" parent="CharacterPanel/Char View/VBoxContainer" instance=ExtResource("1_hhur4")]
+layout_mode = 2
+
+[node name="Box5" parent="CharacterPanel/Char View/VBoxContainer" instance=ExtResource("1_hhur4")]
+layout_mode = 2
+
+[node name="GridSlots" type="GridContainer" parent="CharacterPanel"]
+layout_mode = 0
+offset_left = 62.75
+offset_top = 8.25
+offset_right = 171.75
+offset_bottom = 112.25
+columns = 3
+
+[node name="Box4" parent="CharacterPanel/GridSlots" instance=ExtResource("1_hhur4")]
+layout_mode = 2
+
+[node name="Box5" parent="CharacterPanel/GridSlots" instance=ExtResource("1_hhur4")]
+layout_mode = 2
+
+[node name="Box6" parent="CharacterPanel/GridSlots" instance=ExtResource("1_hhur4")]
+layout_mode = 2
+
+[node name="Box7" parent="CharacterPanel/GridSlots" instance=ExtResource("1_hhur4")]
+layout_mode = 2
+
+[node name="Box8" parent="CharacterPanel/GridSlots" instance=ExtResource("1_hhur4")]
+layout_mode = 2
+
+[node name="Box9" parent="CharacterPanel/GridSlots" instance=ExtResource("1_hhur4")]
+layout_mode = 2
+
+[node name="Box10" parent="CharacterPanel/GridSlots" instance=ExtResource("1_hhur4")]
+layout_mode = 2
+
+[node name="Box11" parent="CharacterPanel/GridSlots" instance=ExtResource("1_hhur4")]
+layout_mode = 2
+
+[node name="Box12" parent="CharacterPanel/GridSlots" instance=ExtResource("1_hhur4")]
+layout_mode = 2

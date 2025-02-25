@@ -1,0 +1,101 @@
+[gd_scene load_steps=11 format=3 uid="uid://dim63nrhm1ee6"]
+
+[ext_resource type="PackedScene" uid="uid://cwpecqrkq2kli" path="res://Scenes/Inventory.tscn" id="1_1ropt"]
+[ext_resource type="Script" path="res://Scripts/UI_Layer.gd" id="1_70wik"]
+[ext_resource type="Script" path="res://Scripts/Main Menu.gd" id="2_1eeod"]
+[ext_resource type="Texture2D" uid="uid://o5vc1umwmjb3" path="res://Sprites/UI_Sprites/Sprite sheet for Basic Pack.png" id="3_jtpq3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m3syr"]
+atlas = ExtResource("3_jtpq3")
+region = Rect2(645, 68, 22, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6n33s"]
+atlas = ExtResource("3_jtpq3")
+region = Rect2(677, 70, 22, 22)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_y7vxp"]
+load_path = "res://.godot/imported/Sprite sheet for Basic Pack.png-58199c2ad2c89d416d67b31b195af632.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u835p"]
+atlas = SubResource("CompressedTexture2D_y7vxp")
+region = Rect2(773, 68, 22, 24)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_m3dv3"]
+load_path = "res://.godot/imported/Sprite sheet for Basic Pack.png-58199c2ad2c89d416d67b31b195af632.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x35da"]
+atlas = SubResource("CompressedTexture2D_m3dv3")
+region = Rect2(805, 70, 22, 22)
+
+[node name="UILayer" type="CanvasLayer"]
+script = ExtResource("1_70wik")
+
+[node name="Inventory" parent="." instance=ExtResource("1_1ropt")]
+
+[node name="Main Menu" type="PanelContainer" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 427.0
+offset_top = 248.0
+offset_right = -427.0
+offset_bottom = -248.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_1eeod")
+
+[node name="MarginContainer" type="MarginContainer" parent="Main Menu"]
+layout_mode = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Main Menu/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="Label" type="Label" parent="Main Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Main Menu"
+horizontal_alignment = 1
+
+[node name="Button_host" type="Button" parent="Main Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Host"
+
+[node name="Button_connect" type="Button" parent="Main Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Join"
+
+[node name="ConnectionString" type="LineEdit" parent="Main Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Enter"
+alignment = 1
+editable = false
+
+[node name="Aux" type="VBoxContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -22.0
+offset_bottom = 52.0
+grow_horizontal = 0
+scale = Vector2(4, 4)
+pivot_offset = Vector2(22, 0)
+
+[node name="Settings" type="TextureButton" parent="Aux"]
+layout_mode = 2
+action_mode = 0
+texture_normal = SubResource("AtlasTexture_m3syr")
+texture_pressed = SubResource("AtlasTexture_6n33s")
+
+[node name="Menu" type="TextureButton" parent="Aux"]
+layout_mode = 2
+action_mode = 0
+texture_normal = SubResource("AtlasTexture_u835p")
+texture_pressed = SubResource("AtlasTexture_x35da")
+
+[connection signal="pressed" from="Main Menu/MarginContainer/VBoxContainer/Button_host" to="Main Menu" method="_on_button_host_pressed"]
+[connection signal="pressed" from="Main Menu/MarginContainer/VBoxContainer/Button_connect" to="Main Menu" method="_on_button_connect_pressed"]
