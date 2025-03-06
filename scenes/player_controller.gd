@@ -5,13 +5,16 @@ extends CharacterBody2D
 @onready var sprite = $Sprite
 @onready var follower_mouse = $Follower_mouse
 var animation_string = "down_s"
-
+var mutliplayer_owner
 const JUMP_VELOCITY = -400.0
 func _ready():
 	set_process(get_multiplayer_authority() == multiplayer.get_unique_id())
+	set_physics_process(get_multiplayer_authority() == multiplayer.get_unique_id())
 	print("Ready player for: " + str(multiplayer.get_unique_id()))
+	print(name)
 	print("auth set to: " + str(get_multiplayer_authority()))
 	print($MultiplayerSynchronizer.get_multiplayer_authority())
+	$BarManager/nametag.text = name 
 	if not is_multiplayer_authority(): return
 	
 	#camera.current = true

@@ -1,4 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://d1ye8g2uisu2m"]
+[gd_scene load_steps=7 format=3 uid="uid://d1ye8g2uisu2m"]
+
+[ext_resource type="FontFile" uid="uid://ndtx5eyycgbv" path="res://fonts/m5x7.ttf" id="1_twaxi"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_pe8cl"]
 light_mode = 1
@@ -120,6 +122,26 @@ one_shot = true
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_ectsh")
+
+[node name="nametag" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.1875
+anchor_right = 0.5
+anchor_bottom = 0.1875
+offset_left = -10.75
+offset_top = 2.0
+offset_right = 78.25
+offset_bottom = 15.0
+grow_horizontal = 2
+scale = Vector2(0.25, 0.25)
+theme_override_fonts/font = ExtResource("1_twaxi")
+theme_override_font_sizes/font_size = 16
+text = "test"
+horizontal_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [connection signal="timeout" from="Resource_Start" to="." method="_on_resource_start_timeout"]
 [connection signal="timeout" from="Health_Start" to="." method="_on_health_start_timeout"]

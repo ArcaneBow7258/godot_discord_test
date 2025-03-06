@@ -82,6 +82,7 @@ text = "[center]Status[/center]"
 
 [node name="BaseMap" type="TileMapLayer" parent="."]
 unique_name_in_owner = true
+texture_filter = 1
 tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 20, 0, 12, 0, 1, 0, 1, 0, 1, 0, 0, 0)
 tile_set = ExtResource("2_wprwp")
 rendering_quadrant_size = 1
