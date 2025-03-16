@@ -6,14 +6,16 @@ extends CharacterBody2D
 @onready var follower_mouse = $Follower_mouse
 var animation_string = "down_s"
 var mutliplayer_owner
+var placeable_select = true
+var target_tile : Vector2i
 const JUMP_VELOCITY = -400.0
 func _ready():
 	set_process(get_multiplayer_authority() == multiplayer.get_unique_id())
 	set_physics_process(get_multiplayer_authority() == multiplayer.get_unique_id())
-	print("Ready player for: " + str(multiplayer.get_unique_id()))
-	print(name)
-	print("auth set to: " + str(get_multiplayer_authority()))
-	print($MultiplayerSynchronizer.get_multiplayer_authority())
+	#print("Ready player for: " + str(multiplayer.get_unique_id()))
+	#print(name)
+	#print("auth set to: " + str(get_multiplayer_authority()))
+	#print($MultiplayerSynchronizer.get_multiplayer_authority())
 	$BarManager/nametag.text = name 
 	if not is_multiplayer_authority(): return
 	
@@ -34,7 +36,15 @@ func _physics_process(delta):
 			#UILayer.Inventory.add_item("Test")
 			#collider.queue_free()
 			collider.free()
-	
+func _process(delta):
+	#target_tile = TileMaps.cropmap.local_to_map(get_global_mouse_position())
+	if target_tile != TileMaps.cropmap.local_to_map(get_global_mouse_position()) and placeable_select:
+		TileMaps.think_about.rpc(target_tile, Vector2i(-1,-1), true)
+		target_tile = TileMaps.cropmap.local_to_map(get_global_mouse_position())
+		TileMaps.think_about.rpc(target_tile)
+
+	#target_tile  = get_node(%TileMaps).thinkabout
+
 func move_mouse():
 	#if not is_multiplayer_authority(): return
 	var mousePos = get_viewport().get_mouse_position()

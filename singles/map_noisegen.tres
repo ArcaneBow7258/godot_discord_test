@@ -1,0 +1,6 @@
+[gd_resource type="FastNoiseLite" format=3 uid="uid://bpi0rvvlnvi1l"]
+
+[resource]
+noise_type = 2
+seed = 818
+fractal_gain = 0.2

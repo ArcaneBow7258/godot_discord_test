@@ -1,0 +1,14 @@
+[gd_resource type="NoiseTexture2D" load_steps=3 format=3 uid="uid://bjow48nwnn24f"]
+
+[ext_resource type="Gradient" uid="uid://duaqtwrppvqse" path="res://singles/map_gradient.tres" id="1_qsdym"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_gccsu"]
+noise_type = 0
+frequency = 0.03
+fractal_type = 2
+
+[resource]
+width = 16
+height = 16
+color_ramp = ExtResource("1_qsdym")
+noise = SubResource("FastNoiseLite_gccsu")

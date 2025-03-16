@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3 uid="uid://bm1kki22pl0mh"]
+
+[ext_resource type="Script" path="res://singles/Cells.gd" id="1_wp3ds"]
+[ext_resource type="Texture2D" uid="uid://bjow48nwnn24f" path="res://singles/map_noise.tres" id="2_a1143"]
+[ext_resource type="TileSet" uid="uid://df5oleg3xy8pp" path="res://tilesets/grass.tres" id="3_71t25"]
+[ext_resource type="Script" path="res://scenes/map.gd" id="4_nwnfd"]
+[ext_resource type="TileSet" uid="uid://ben78m804jpm7" path="res://tilesets/farm.tres" id="5_iltde"]
+[ext_resource type="Script" path="res://singles/crop_manager.gd" id="6_6oyty"]
+
+[node name="TileMaps" type="Node2D" node_paths=PackedStringArray("basemap", "cropmap")]
+script = ExtResource("1_wp3ds")
+width = 32
+height = 32
+basemap = NodePath("BaseMap")
+cropmap = NodePath("CropMap")
+noise = ExtResource("2_a1143")
+
+[node name="BaseMap" type="TileMapLayer" parent="."]
+unique_name_in_owner = true
+texture_filter = 1
+tile_map_data = PackedByteArray(0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 20, 0, 12, 0, 1, 0, 1, 0, 1, 0, 0, 0)
+tile_set = ExtResource("3_71t25")
+rendering_quadrant_size = 1
+script = ExtResource("4_nwnfd")
+
+[node name="ThinkMap" type="TileMapLayer" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.478431)
+light_mask = 2
+tile_set = ExtResource("5_iltde")
+
+[node name="CropMap" type="TileMapLayer" parent="."]
+unique_name_in_owner = true
+tile_map_data = PackedByteArray(0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0)
+tile_set = ExtResource("5_iltde")
+script = ExtResource("6_6oyty")
+
+[node name="Timer" type="Timer" parent="CropMap"]

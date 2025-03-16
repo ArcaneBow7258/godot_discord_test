@@ -10,7 +10,7 @@ signal server_disconnected
 const PORT = 8181
 const DEFAULT_SERVER_IP = "127.0.0.1" # IPv4 localhost
 @export var MAX_CONNECTIONS = 4
-var  PLAYER_SPAWNER : MultiplayerSpawner
+@export var  PLAYER_SPAWNER : MultiplayerSpawner
 @export var PLAYER_HOLDER : Node
 # This will contain player info for every player,
 # with the keys being each player's unique IDs.
@@ -32,36 +32,38 @@ func _ready():
 	multiplayer.connected_to_server.connect(_on_connected_ok)
 	multiplayer.connection_failed.connect(_on_connected_fail)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
-	PLAYER_SPAWNER = %PlayerSpawner
-	PLAYER_HOLDER = $"../Players"
+	#PLAYER_SPAWNER = %PlayerSpawner
+	#PLAYER_HOLDER = $"../Players"
 	PLAYER_SPAWNER.set_spawn_function(_spawn_player)
 	if OS.has_feature("dedicated_server"):
 		create_game()
 func _spawn_player(data: Dictionary):
 	if multiplayer.is_server():
-		print("spawning for ")
+		print("spawning for server")
 	var character = preload("res://scenes/2_player.tscn").instantiate()
 	character.set_multiplayer_authority(data['multiplayer_id'])
 	character.name =  str(data['id'])
-	character.reparent(get_node(PLAYER_SPAWNER.spawn_path), true)
+	#print(PLAYER_SPAWNER.spawn_path)
+	character.reparent(PLAYER_HOLDER, true)
 	return character
 # Guess this is when it creates the local player
 func _process_local_player():
-	print('local player')
-	var t = (get_node("%JoinUI/VBoxContainer/NameBox/name_edit") as TextEdit).text 
-	var color = (get_node("%JoinUI/VBoxContainer/NameBox/name_color") as ColorPicker).color 
+	#print('local player')
+	var t = (JoinUI.get_node("VBoxContainer/NameBox/name_edit") as TextEdit).text 
+	var color = (JoinUI.get_node("VBoxContainer/NameBox/name_color") as ColorPicker).color 
 	
 	if t != '':
 		player_info['name'] = t
 	else:
 		player_info['name'] = randi()
 	player_info['color'] = color
-	#print(player_info['name'])
+	#print('local', player_info)
 
 func join_game():
-	print("Attempt Join")
-	var address = (get_node("%JoinUI/VBoxContainer/lobby_edit") as TextEdit).text 
+	#print("Attempt Join")
+	var address = (JoinUI.get_node("VBoxContainer/lobby_edit") as TextEdit).text 
 	if address.is_empty():
+		
 		address = DEFAULT_SERVER_IP
 	var peer = ENetMultiplayerPeer.new()
 	var error = peer.create_client(address, PORT)
@@ -70,8 +72,7 @@ func join_game():
 		return error
 	_process_local_player()
 	multiplayer.multiplayer_peer = peer
-	
-	%JoinUI.hide()
+	JoinUI.hide()
 	
 
 
@@ -82,15 +83,17 @@ func create_game():
 		return error
 	multiplayer.multiplayer_peer = peer
 	serv_info['seed'] = 818
-	%BaseMap.make_map()
+	TileMaps.make_map()
 	# server has id of 1
 	if not OS.has_feature("dedicated_server"):
+		print("NOT DEDICATED")
 		_process_local_player()
 		players[1] = player_info
 		player_connected.emit(1, player_info)
 		PLAYER_SPAWNER.spawn({'id' = player_info['name'],
 		'multiplayer_id' = 1})
-		%JoinUI.hide()
+		#print("woah", JoinUI)
+		JoinUI.visible = false
 
 
 func remove_multiplayer_peer():
@@ -109,9 +112,9 @@ func load_game(game_scene_path):
 # Any pear will be allows anyone to call it
 @rpc("any_peer", "call_local", "reliable")
 func player_loaded():
-	%BaseMap.make_tiles.rpc_id(multiplayer.get_remote_sender_id(), %BaseMap)
+	TileMaps.make_tiles.rpc_id(multiplayer.get_remote_sender_id(), TileMaps.map)
 	players_loaded += 1
-	print("Srever player count: " + str(players_loaded))
+	#print("Srever player count: " + str(players_loaded))
 	PLAYER_SPAWNER.spawn({"id" = player_info[multiplayer.get_remote_sender_id()],
 						  "multiplayer_id" =multiplayer.get_remote_sender_id()
 						})
@@ -123,8 +126,8 @@ func player_loaded():
 func _on_player_connected(id):
 
 	# Send data to specific user
-	print(str(multiplayer.get_unique_id()) + " _on_player_connected")
-	print(player_info)
+	#print(str(multiplayer.get_unique_id()) + " _on_player_connected")
+	#print(player_info)
 	_register_player.rpc_id(id, player_info)
 
 	
@@ -135,9 +138,16 @@ func _register_player(new_player_info):
 	var new_player_id = multiplayer.get_remote_sender_id()
 	players[new_player_id] = new_player_info
 	player_connected.emit(new_player_id, new_player_info)
-	print(str(multiplayer.get_unique_id()) + " register player: " + str(new_player_id))
+	#print(str(multiplayer.get_unique_id()) + " register player: " + str(new_player_id))
 	if multiplayer.is_server():
-		%BaseMap.make_tiles.rpc_id(multiplayer.get_remote_sender_id(), %BaseMap.map)
+		TileMaps.make_tiles.rpc_id(multiplayer.get_remote_sender_id(), TileMaps.map)
+		var used = TileMaps.cropmap.get_used_cells()
+		print("Sending ", len(used), " crop tiles")
+		var used_atlas = []
+		for cord in used:
+			used_atlas.append(TileMaps.cropmap.get_cell_atlas_coords(cord))
+		print(used_atlas)
+		TileMaps.make_crops.rpc_id(multiplayer.get_remote_sender_id(), used, used_atlas)
 		PLAYER_SPAWNER.spawn({"id" = new_player_info['name'],
 							  "multiplayer_id" = new_player_id
 							})

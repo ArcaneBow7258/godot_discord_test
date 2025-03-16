@@ -15,6 +15,12 @@ run/main_scene="res://scenes/main.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
+[autoload]
+
+TileMaps="*res://singles/tile_maps.tscn"
+MultiplayerMain="*res://singles/multiplayer_main.tscn"
+JoinUI="*res://singles/join_ui.tscn"
+
 [dotnet]
 
 project/assembly_name="godot_discord_test"
@@ -44,6 +50,7 @@ move_down={
 
 [layer_names]
 
+2d_render/layer_2="gray_out"
 2d_physics/layer_1="ledge"
 2d_navigation/layer_1="ai"
 
