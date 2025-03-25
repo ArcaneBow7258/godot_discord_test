@@ -36,9 +36,9 @@ properties/5/spawn = true
 properties/5/replication_mode = 1
 
 [node name="2_Player" type="CharacterBody2D"]
-collision_mask = 36
+collision_layer = 2
 platform_on_leave = 2
-platform_floor_layers = 4294967264
+platform_floor_layers = 4278190080
 script = ExtResource("1_6f42m")
 SPEED = 100.0
 

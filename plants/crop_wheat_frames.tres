@@ -1,0 +1,51 @@
+[gd_resource type="SpriteFrames" load_steps=7 format=3 uid="uid://ckiyjs3id8a6p"]
+
+[ext_resource type="Texture2D" uid="uid://cgvtsgdumcjeh" path="res://tilesets/basic_plants_atlas.tres" id="1_6r5vv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ukxdw"]
+atlas = ExtResource("1_6r5vv")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8nwox"]
+atlas = ExtResource("1_6r5vv")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y2ptj"]
+atlas = ExtResource("1_6r5vv")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jiyuj"]
+atlas = ExtResource("1_6r5vv")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ljqgt"]
+atlas = ExtResource("1_6r5vv")
+region = Rect2(64, 0, 16, 16)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ukxdw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8nwox")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y2ptj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jiyuj")
+}],
+"loop": false,
+"name": &"growing",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ljqgt")
+}],
+"loop": true,
+"name": &"item",
+"speed": 5.0
+}]

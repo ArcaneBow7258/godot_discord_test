@@ -43,6 +43,8 @@ func _spawn_player(data: Dictionary):
 	var character = preload("res://scenes/2_player.tscn").instantiate()
 	character.set_multiplayer_authority(data['multiplayer_id'])
 	character.name =  str(data['id'])
+	character.get_node("Sprite").modulate = data['color']
+	
 	#print(PLAYER_SPAWNER.spawn_path)
 	character.reparent(PLAYER_HOLDER, true)
 	return character
@@ -91,6 +93,7 @@ func create_game():
 		players[1] = player_info
 		player_connected.emit(1, player_info)
 		PLAYER_SPAWNER.spawn({'id' = player_info['name'],
+		'color' = player_info['color'],
 		'multiplayer_id' = 1})
 		#print("woah", JoinUI)
 		JoinUI.visible = false
@@ -110,14 +113,14 @@ func load_game(game_scene_path):
 
 # Every peer will call this when they have loaded the game scene.
 # Any pear will be allows anyone to call it
-@rpc("any_peer", "call_local", "reliable")
-func player_loaded():
-	TileMaps.make_tiles.rpc_id(multiplayer.get_remote_sender_id(), TileMaps.map)
-	players_loaded += 1
-	#print("Srever player count: " + str(players_loaded))
-	PLAYER_SPAWNER.spawn({"id" = player_info[multiplayer.get_remote_sender_id()],
-						  "multiplayer_id" =multiplayer.get_remote_sender_id()
-						})
+#@rpc("any_peer", "call_local", "reliable")
+#func player_loaded():
+	#TileMaps.make_tiles.rpc_id(multiplayer.get_remote_sender_id(), TileMaps.map)
+	#players_loaded += 1
+	##print("Srever player count: " + str(players_loaded))
+	#PLAYER_SPAWNER.spawn({"id" = player_info[multiplayer.get_remote_sender_id()],
+						  #"multiplayer_id" =multiplayer.get_remote_sender_id()
+						#})
 
 
 # When a peer connects, send them my player info.
@@ -149,6 +152,7 @@ func _register_player(new_player_info):
 		print(used_atlas)
 		TileMaps.make_crops.rpc_id(multiplayer.get_remote_sender_id(), used, used_atlas)
 		PLAYER_SPAWNER.spawn({"id" = new_player_info['name'],
+							   "color" = new_player_info['color'],
 							  "multiplayer_id" = new_player_id
 							})
 		

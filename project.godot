@@ -53,6 +53,7 @@ move_down={
 2d_render/layer_2="gray_out"
 2d_physics/layer_1="ledge"
 2d_navigation/layer_1="ai"
+2d_physics/layer_2="player"
 
 [rendering]
 

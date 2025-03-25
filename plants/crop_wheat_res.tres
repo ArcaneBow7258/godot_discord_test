@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="crop_template_res" load_steps=3 format=3 uid="uid://3ydw1j2soa32"]
+
+[ext_resource type="SpriteFrames" uid="uid://ckiyjs3id8a6p" path="res://plants/crop_wheat_frames.tres" id="1_f0kuu"]
+[ext_resource type="Script" path="res://plants/crop_template.gd" id="2_5vpfk"]
+
+[resource]
+script = ExtResource("2_5vpfk")
+name = "crop_wheat"
+display_name = "Wheat"
+time_per_stage = 30
+n_stages = 4
+origin_tilemap_cords = Vector2(0, 0)
+frames = ExtResource("1_f0kuu")
