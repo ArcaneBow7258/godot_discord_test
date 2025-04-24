@@ -1,0 +1,208 @@
+[gd_scene load_steps=12 format=3 uid="uid://cwpecqrkq2kli"]
+
+[ext_resource type="Script" path="res://singles/ui/Inventory.gd" id="1_ixh5q"]
+[ext_resource type="PackedScene" uid="uid://bp85222ie7l3g" path="res://transfer/Slot.tscn" id="2_e7it7"]
+[ext_resource type="Texture2D" uid="uid://bef816edvcpop" path="res://packs/Sprout-Lands-UI-0.2.0/sprout_lands_ui/content/assets/Sprite sheet for Basic Pack.png" id="3_fm42c"]
+[ext_resource type="Texture2D" uid="uid://o5vc1umwmjb3" path="res://packs/UI_Sprites/Sprite sheet for Basic Pack.png" id="4_frou0"]
+[ext_resource type="Texture2D" uid="uid://b2mqjugadrbwx" path="res://packs/UI_Sprites/Setting menu.png" id="5_36a8s"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ioffr"]
+atlas = ExtResource("3_fm42c")
+region = Rect2(152, 56, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jr5hl"]
+atlas = ExtResource("3_fm42c")
+region = Rect2(200, 8, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qu218"]
+atlas = ExtResource("4_frou0")
+region = Rect2(152, 56, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2e2xn"]
+atlas = ExtResource("3_fm42c")
+region = Rect2(200, 8, 32, 32)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7nnss"]
+texture = ExtResource("5_36a8s")
+texture_margin_left = 96.0
+texture_margin_top = 16.0
+texture_margin_right = 96.0
+texture_margin_bottom = 16.0
+region_rect = Rect2(136, 8, 112, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bcn7o"]
+region = Rect2(16, 16, 16, 16)
+
+[node name="Inventory" type="Control" node_paths=PackedStringArray("hotbar_nodes", "backpack_nodes")]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ixh5q")
+hotbar_nodes = [NodePath("Hotbar/Box1"), NodePath("Hotbar/Box2"), NodePath("Hotbar/Box3"), NodePath("Hotbar/Box4")]
+backpack_nodes = [NodePath("InventoryScreen/Backpack/Box5"), NodePath("InventoryScreen/Backpack/Box6"), NodePath("InventoryScreen/Backpack/Box7"), NodePath("InventoryScreen/Backpack/Box8"), NodePath("InventoryScreen/Backpack/Box9"), NodePath("InventoryScreen/Backpack/Box10"), NodePath("InventoryScreen/Backpack/Box11"), NodePath("InventoryScreen/Backpack/Box12"), NodePath("InventoryScreen/Backpack/Box13")]
+
+[node name="Hotbar" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -70.0
+offset_top = -100.0
+offset_right = 70.0
+offset_bottom = -68.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(4, 4)
+pivot_offset = Vector2(70, 16)
+
+[node name="Box1" parent="Hotbar" instance=ExtResource("2_e7it7")]
+unique_name_in_owner = true
+layout_mode = 2
+disabled = true
+texture_normal = SubResource("AtlasTexture_ioffr")
+texture_disabled = SubResource("AtlasTexture_jr5hl")
+
+[node name="Box Cursor" type="ReferenceRect" parent="Hotbar/Box1"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(8, 8)
+mouse_filter = 1
+editor_only = false
+
+[node name="Box2" parent="Hotbar" instance=ExtResource("2_e7it7")]
+unique_name_in_owner = true
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_qu218")
+texture_pressed = SubResource("AtlasTexture_qu218")
+texture_disabled = SubResource("AtlasTexture_2e2xn")
+
+[node name="Box3" parent="Hotbar" instance=ExtResource("2_e7it7")]
+unique_name_in_owner = true
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_ioffr")
+texture_disabled = SubResource("AtlasTexture_jr5hl")
+
+[node name="Box4" parent="Hotbar" instance=ExtResource("2_e7it7")]
+unique_name_in_owner = true
+layout_mode = 2
+texture_normal = SubResource("AtlasTexture_ioffr")
+texture_disabled = SubResource("AtlasTexture_jr5hl")
+
+[node name="InventoryScreen" type="Panel" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -90.0
+offset_top = -124.0
+offset_right = 90.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(4, 4)
+pivot_offset = Vector2(90, 60)
+theme_override_styles/panel = SubResource("StyleBoxTexture_7nnss")
+
+[node name="Char View" type="Panel" parent="InventoryScreen"]
+layout_mode = 0
+offset_left = 14.25
+offset_top = 10.75
+offset_right = 39.25
+offset_bottom = 37.75
+
+[node name="Pic" type="TextureRect" parent="InventoryScreen/Char View"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_bcn7o")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InventoryScreen/Char View"]
+layout_mode = 0
+offset_left = -3.75
+offset_top = 30.5
+offset_right = 28.25
+offset_bottom = 98.5
+
+[node name="BoxBody" parent="InventoryScreen/Char View/VBoxContainer" instance=ExtResource("2_e7it7")]
+layout_mode = 2
+script = null
+
+[node name="BoxBoot" parent="InventoryScreen/Char View/VBoxContainer" instance=ExtResource("2_e7it7")]
+layout_mode = 2
+script = null
+
+[node name="Backpack" type="GridContainer" parent="InventoryScreen"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 62.75
+offset_top = 8.25
+offset_right = 171.75
+offset_bottom = 112.25
+columns = 3
+
+[node name="Box5" parent="InventoryScreen/Backpack" instance=ExtResource("2_e7it7")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Box6" parent="InventoryScreen/Backpack" instance=ExtResource("2_e7it7")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Box7" parent="InventoryScreen/Backpack" instance=ExtResource("2_e7it7")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Box8" parent="InventoryScreen/Backpack" instance=ExtResource("2_e7it7")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Box9" parent="InventoryScreen/Backpack" instance=ExtResource("2_e7it7")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Box10" parent="InventoryScreen/Backpack" instance=ExtResource("2_e7it7")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Box11" parent="InventoryScreen/Backpack" instance=ExtResource("2_e7it7")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Box12" parent="InventoryScreen/Backpack" instance=ExtResource("2_e7it7")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="Box13" parent="InventoryScreen/Backpack" instance=ExtResource("2_e7it7")]
+unique_name_in_owner = true
+layout_mode = 2
+texture_disabled = null

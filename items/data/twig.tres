@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="item_template_res" load_steps=4 format=3 uid="uid://d04igrhvqqgxf"]
+
+[ext_resource type="Script" path="res://items/item_template.gd" id="1_ut76g"]
+[ext_resource type="Texture2D" uid="uid://dr7d8lb1oxt4k" path="res://sheets/basic_item_tool_mat.tres" id="2_jfjda"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6i0pm"]
+atlas = ExtResource("2_jfjda")
+region = Rect2(16, 16, 16, 16)
+
+[resource]
+script = ExtResource("1_ut76g")
+name = "twig"
+display_name = "Twig"
+stack_limit = 64
+stack = 0
+sprite_path = SubResource("AtlasTexture_6i0pm")
+placeable = false
+type = 4
+strength = 0

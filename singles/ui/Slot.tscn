@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://m5vv7frts42f"]
+
+[ext_resource type="Script" path="res://singles/ui/Slot.gd" id="1_4ol0e"]
+[ext_resource type="Texture2D" uid="uid://bef816edvcpop" path="res://packs/Sprout-Lands-UI-0.2.0/sprout_lands_ui/content/assets/Sprite sheet for Basic Pack.png" id="1_xpsf0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jr5hl"]
+atlas = ExtResource("1_xpsf0")
+region = Rect2(200, 8, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ioffr"]
+atlas = ExtResource("1_xpsf0")
+region = Rect2(152, 56, 32, 32)
+
+[node name="Slot" type="TextureButton"]
+texture_filter = 1
+toggle_mode = true
+texture_normal = SubResource("AtlasTexture_jr5hl")
+texture_pressed = SubResource("AtlasTexture_ioffr")
+script = ExtResource("1_4ol0e")

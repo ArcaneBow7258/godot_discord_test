@@ -2,11 +2,16 @@
 
 [ext_resource type="Script" path="res://singles/singemultiplayer_main.gd" id="1_u52x0"]
 
-[node name="MultiplayerMain" type="Node" node_paths=PackedStringArray("PLAYER_SPAWNER", "PLAYER_HOLDER")]
+[node name="MultiplayerMain" type="Node" node_paths=PackedStringArray("PLAYER_HOLDER", "ITEM_HOLDER")]
 script = ExtResource("1_u52x0")
 MAX_CONNECTIONS = 2
-PLAYER_SPAWNER = NodePath("PlayerSpawner")
 PLAYER_HOLDER = NodePath("Players")
+ITEM_HOLDER = NodePath("Drops")
+
+[node name="Players" type="Node2D" parent="."]
+
+[node name="Drops" type="Node2D" parent="."]
+position = Vector2(-2, -44)
 
 [node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
 unique_name_in_owner = true
@@ -14,4 +19,8 @@ _spawnable_scenes = PackedStringArray("res://scenes/2_player.tscn")
 spawn_path = NodePath("../Players")
 spawn_limit = 4
 
-[node name="Players" type="Node" parent="."]
+[node name="ItemSpawner" type="MultiplayerSpawner" parent="."]
+unique_name_in_owner = true
+_spawnable_scenes = PackedStringArray("res://items/item_drop.tscn")
+spawn_path = NodePath("../Drops")
+spawn_limit = 99

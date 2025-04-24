@@ -56,7 +56,7 @@ func fill():
 				#print(normal)
 				map[x + y*width] = 1 if normal > 0.4 else 0
 				
-		print('size of map', len(map))
+		#print('size of map', len(map))
 	else:
 		if(!random_seed): rng.seed = seed
 		for x in width:
@@ -98,10 +98,10 @@ func _draw():
 				draw_rect(Rect2(x * draw_size, y * draw_size,draw_size, draw_size),col, true)
 @rpc("authority", "call_local","reliable")
 func make_tiles(cells):
-	print("make_tiles: ", map.max(), '',map.min())
+	#print("make_tiles: ", map.max(), '',map.min())
 	var map_fill = []
 	var map_empty = []
-	print(cells[0])
+	#print(cells[0])
 	for x in width:
 		for y in height:
 			if(cells[x + y*width] == 1):

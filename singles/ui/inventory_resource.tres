@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="inventory_data" load_steps=2 format=3 uid="uid://bq5qdted2gmmy"]
+
+[ext_resource type="Script" path="res://singles/ui/inventory_data.gd" id="1_6rnkj"]
+
+[resource]
+script = ExtResource("1_6rnkj")
+hotbar_size = 4
+backpack_size = 3
+backpack_max_size = 9

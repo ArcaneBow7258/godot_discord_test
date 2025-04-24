@@ -9,11 +9,10 @@
 size = Vector2(11.5, 10.125)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h5pf2"]
-radius = 32.0
+radius = 24.0
 
-[sub_resource type="GDScript" id="GDScript_27yrv"]
-script/source = "extends CollisionShape2D
-"
+[sub_resource type="CircleShape2D" id="CircleShape2D_55a0h"]
+radius = 12.0
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_5yved"]
 properties/0/path = NodePath("Sprite:animation")
@@ -34,8 +33,12 @@ properties/4/replication_mode = 1
 properties/5/path = NodePath(".:position")
 properties/5/spawn = true
 properties/5/replication_mode = 1
+properties/6/path = NodePath(".:display_name")
+properties/6/spawn = true
+properties/6/replication_mode = 1
 
-[node name="2_Player" type="CharacterBody2D"]
+[node name="2_Player" type="CharacterBody2D" groups=["player"]]
+texture_filter = 1
 collision_layer = 2
 platform_on_leave = 2
 platform_floor_layers = 4278190080
@@ -50,9 +53,10 @@ autoplay = "down_s"
 frame_progress = 0.741652
 metadata/_edit_lock_ = true
 
-[node name="Hitbox" type="CollisionShape2D" parent="." groups=["Friendly"]]
+[node name="Hitbox" type="CollisionShape2D" parent="."]
 position = Vector2(0, 4.118)
 shape = SubResource("RectangleShape2D_2q7kj")
+debug_color = Color(1, 1, 1, 0.42)
 metadata/_edit_lock_ = true
 
 [node name="Camera" type="Camera2D" parent="."]
@@ -70,22 +74,32 @@ texture = ExtResource("2_rowtv")
 offset_left = -31.75
 offset_right = 32.25
 
-[node name="Area_Pickup" type="Area2D" parent="."]
-visible = false
+[node name="Area_Attract" type="Area2D" parent="." groups=["player"]]
 position = Vector2(0.25, 0)
 collision_layer = 0
-collision_mask = 32
+collision_mask = 4
 input_pickable = false
+monitorable = false
 gravity_space_override = 1
 gravity_point = true
-gravity_point_unit_distance = 64.0
-gravity = 100.0
+gravity = 32.0
+
+[node name="Collision_Attract" type="CollisionShape2D" parent="Area_Attract"]
+shape = SubResource("CircleShape2D_h5pf2")
+
+[node name="Area_Pickup" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
 
 [node name="Collision_Pickup" type="CollisionShape2D" parent="Area_Pickup"]
-visible = false
-shape = SubResource("CircleShape2D_h5pf2")
-script = SubResource("GDScript_27yrv")
+shape = SubResource("CircleShape2D_55a0h")
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_5yved")
 visibility_update_mode = 1
+
+[connection signal="body_entered" from="Area_Attract" to="." method="_on_area_attract_body_entered"]
+[connection signal="body_shape_exited" from="Area_Attract" to="." method="_on_area_attract_body_exited"]
+[connection signal="body_entered" from="Area_Pickup" to="." method="_on_area_pickup_body_entered"]
+[connection signal="body_exited" from="Area_Pickup" to="." method="_on_area_pickup_body_exited"]

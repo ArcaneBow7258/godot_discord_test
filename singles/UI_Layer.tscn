@@ -1,0 +1,52 @@
+[gd_scene load_steps=10 format=3 uid="uid://dim63nrhm1ee6"]
+
+[ext_resource type="PackedScene" uid="uid://cwpecqrkq2kli" path="res://singles/ui/Inventory.tscn" id="1_1ropt"]
+[ext_resource type="Script" path="res://singles/UI_Layer.gd" id="1_70wik"]
+[ext_resource type="Texture2D" uid="uid://bef816edvcpop" path="res://packs/Sprout-Lands-UI-0.2.0/sprout_lands_ui/content/assets/Sprite sheet for Basic Pack.png" id="3_jtpq3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m3syr"]
+atlas = ExtResource("3_jtpq3")
+region = Rect2(645, 68, 22, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6n33s"]
+atlas = ExtResource("3_jtpq3")
+region = Rect2(677, 70, 22, 22)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_y7vxp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u835p"]
+atlas = SubResource("CompressedTexture2D_y7vxp")
+region = Rect2(773, 68, 22, 24)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_m3dv3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x35da"]
+atlas = SubResource("CompressedTexture2D_m3dv3")
+region = Rect2(805, 70, 22, 22)
+
+[node name="UILayer" type="CanvasLayer"]
+script = ExtResource("1_70wik")
+
+[node name="Inventory" parent="." instance=ExtResource("1_1ropt")]
+
+[node name="Aux" type="VBoxContainer" parent="."]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -22.0
+offset_bottom = 52.0
+grow_horizontal = 0
+scale = Vector2(4, 4)
+pivot_offset = Vector2(22, 0)
+
+[node name="Settings" type="TextureButton" parent="Aux"]
+layout_mode = 2
+action_mode = 0
+texture_normal = SubResource("AtlasTexture_m3syr")
+texture_pressed = SubResource("AtlasTexture_6n33s")
+
+[node name="Menu" type="TextureButton" parent="Aux"]
+layout_mode = 2
+action_mode = 0
+texture_normal = SubResource("AtlasTexture_u835p")
+texture_pressed = SubResource("AtlasTexture_x35da")
